@@ -1,0 +1,102 @@
+message.content= ```json
+[
+        {"bbox_2d": [401, 368, 719, 462], "label": "有人乞讨"}
+]
+```
+[{'bbox_2d': [401, 368, 719, 462], 'label': '有人乞讨'}]
+save result image to: data/00-result-qwen\000000.jpg
+message.content= ```json
+[
+        {"bbox_2d": [365, 570, 819, 974], "label": "有人乞讨"}
+]
+```
+[{'bbox_2d': [365, 570, 819, 974], 'label': '有人乞讨'}]
+save result image to: data/00-result-qwen\000001.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000002.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000003.jpg
+message.content= ```json
+[
+        {"bbox_2d": [336, 84, 701, 534], "label": "有人乞讨"}
+]
+```
+[{'bbox_2d': [336, 84, 701, 534], 'label': '有人乞讨'}]
+save result image to: data/00-result-qwen\000004.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000005.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000006.jpg
+message.content= ```json
+[
+        {"bbox_2d": [145, 60, 667, 668], "label": "有人乞讨"}
+]
+```
+[{'bbox_2d': [145, 60, 667, 668], 'label': '有人乞讨'}]
+save result image to: data/00-result-qwen\000007.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000008.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000009.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000011.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000012.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000013.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000014.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000015.jpg
+message.content= ```json
+[
+        {"bbox_2d": [340, 412, 665, 759], "label": "有人乞讨"}
+]
+```
+[{'bbox_2d': [340, 412, 665, 759], 'label': '有人乞讨'}]
+save result image to: data/00-result-qwen\000016.jpg
+message.content= ```json
+[
+        {"bbox_2d": [406, 287, 641, 385], "label": "有人乞讨"}
+]
+```
+[{'bbox_2d': [406, 287, 641, 385], 'label': '有人乞讨'}]
+save result image to: data/00-result-qwen\000017.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000018.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000019.jpg
+message.content= ```json
+[
+        {"bbox_2d": [19, 430, 457, 864], "label": "有人乞讨"}
+]
+```
+[{'bbox_2d': [19, 430, 457, 864], 'label': '有人乞讨'}]
+save result image to: data/00-result-qwen\000020.jpg
+message.content= ```json
+[
+        {"bbox_2d": [476, 208, 675, 449], "label": "有人乞讨"}
+]
+```
+[{'bbox_2d': [476, 208, 675, 449], 'label': '有人乞讨'}]
+save result image to: data/00-result-qwen\000021.jpg
+message.content= 图中无人乞讨。
+[]
+save result image to: data/00-result-qwen\000022.jpg
+image precision: 100.00%=8/8
+image recall: 88.89%=8/9
+bbox precision: 100.00%=8/8
+bbox recall: 88.89%=8/9
