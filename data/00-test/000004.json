@@ -1,0 +1,28 @@
+{
+  "version": "5.4.1",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "qitao",
+      "points": [
+        [
+          222.75229357798167,
+          64.1146788990826
+        ],
+        [
+          451.19266055045875,
+          452.1880733944954
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "rectangle",
+      "flags": {},
+      "mask": null
+    }
+  ],
+  "imagePath": "000004.jpg",
+  "imageData": null,
+  "imageHeight": 853,
+  "imageWidth": 640
+}

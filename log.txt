@@ -1,0 +1,50 @@
+message.content= 图中无人乞讨，无对应 bounding box。
+save result image to: data/00-result\000002.jpg
+message.content= 图中无人乞讨，无对应 bounding box。
+save result image to: data/00-result\000003.jpg
+message.content= 图中无人乞讨，无对应 bounding box。
+save result image to: data/00-result\000005.jpg
+message.content= 图中无人乞讨，无对应 bounding box。
+save result image to: data/00-result\000006.jpg
+message.content= 图中无人乞讨，无需输出 bounding box。
+save result image to: data/00-result\000008.jpg
+message.content= 图中无人乞讨，无对应 bounding box。
+save result image to: data/00-result\000009.jpg
+message.content= <bbox>481 417 544 611</bbox>
+save result image to: data/00-result\000011.jpg
+message.content= 图中无人乞讨，无对应 bounding box。
+save result image to: data/00-result\000013.jpg
+message.content= 图中无人乞讨，无对应 bounding box。
+save result image to: data/00-result\000014.jpg
+message.content= 图中无人乞讨，因此无对应 bounding box。
+save result image to: data/00-result\000015.jpg
+message.content= 图中无有人乞讨的位置，因此不输出 bounding box。
+save result image to: data/00-result\000018.jpg
+message.content= 图中无人乞讨，无对应 bounding box。
+save result image to: data/00-result\000019.jpg
+message.content= 图中无人乞讨，无对应 bounding box。
+save result image to: data/00-result\000022.jpg
+message.content= <bbox>400 371 714 463</bbox>
+save result image to: data/00-result\000000.jpg
+message.content= <bbox>226 453 900 966</bbox>
+save result image to: data/00-result\000001.jpg
+message.content= <bbox>332 84 698 529</bbox>
+save result image to: data/00-result\000004.jpg
+message.content= <bbox>150 60 664 657</bbox>
+save result image to: data/00-result\000007.jpg
+message.content= <bbox>143 301 566 700</bbox>
+save result image to: data/00-result\000012.jpg
+message.content= <bbox>339 410 664 753</bbox>
+save result image to: data/00-result\000016.jpg
+save result image to: data/00-result\000016.jpg
+save result image to: data/00-result\000016.jpg
+message.content= <bbox>387 290 637 416</bbox>
+save result image to: data/00-result\000017.jpg
+message.content= <bbox>34 438 434 854</bbox>
+save result image to: data/00-result\000020.jpg
+message.content= <bbox>406 205 674 436</bbox>
+save result image to: data/00-result\000021.jpg
+image precision: 90.00%=9/10
+image recall: 100.00%=9/9
+bbox precision: 70.00%=7/10
+bbox recall: 77.78%=7/9
