@@ -1,4 +1,4 @@
-data/00-result/*.jpg
+data/00-result*
 __pycache__
 *.pkl
 *.pyc
