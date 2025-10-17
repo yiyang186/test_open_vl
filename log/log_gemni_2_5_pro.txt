@@ -1,0 +1,110 @@
+message.content= ```json
+[
+  {"box_2d": [365, 401, 461, 715], "label": "有人乞讨"}
+]
+```
+[{'box_2d': [365, 401, 461, 715], 'label': '有人乞讨'}]
+save result image to: data/00-result-gemini\000000.jpg
+message.content= ```json
+[
+  {"box_2d": [425, 260, 971, 792]}
+]
+```
+[{'box_2d': [425, 260, 971, 792]}]
+save result image to: data/00-result-gemini\000001.jpg
+message.content= I did not find any bounding box detections for someone begging.
+[]
+save result image to: data/00-result-gemini\000002.jpg
+message.content= I did not find any people begging in the image.
+[]
+save result image to: data/00-result-gemini\000003.jpg
+message.content= ```json
+[
+  {"box_2d": [81, 331, 521, 695]}
+]
+```
+[{'box_2d': [81, 331, 521, 695]}]
+save result image to: data/00-result-gemini\000004.jpg
+message.content= I did not find any bounding box detections for a person begging.
+[]
+save result image to: data/00-result-gemini\000005.jpg
+message.content= I did not find any people begging in the image.
+[]
+save result image to: data/00-result-gemini\000006.jpg
+message.content= ```json
+[
+  {"box_2d": [58, 148, 659, 663], "label": "有人乞讨"}
+]
+```
+[{'box_2d': [58, 148, 659, 663], 'label': '有人乞讨'}]
+save result image to: data/00-result-gemini\000007.jpg
+message.content= I did not find any bounding box.
+[]
+save result image to: data/00-result-gemini\000008.jpg
+message.content= I did not find any bounding box detections for有人乞讨.
+[]
+save result image to: data/00-result-gemini\000009.jpg
+message.content= ```json
+[
+  {"box_2d": [477, 483, 597, 545]}
+]
+```
+[{'box_2d': [477, 483, 597, 545]}]
+save result image to: data/00-result-gemini\000011.jpg
+message.content= ```json
+[
+  {"box_2d": [188, 144, 856, 672], "label": "有人乞讨"}
+]
+```
+[{'box_2d': [188, 144, 856, 672], 'label': '有人乞讨'}]
+save result image to: data/00-result-gemini\000012.jpg
+message.content= I did not find any people begging in the image.
+[]
+save result image to: data/00-result-gemini\000013.jpg
+message.content= I did not find any segmentation masks for乞讨.
+[]
+save result image to: data/00-result-gemini\000014.jpg
+message.content= I did not find any people begging in the image.
+[]
+save result image to: data/00-result-gemini\000015.jpg
+message.content= ```json
+[
+  {"box_2d": [413, 342, 748, 663]}
+]
+```
+[{'box_2d': [413, 342, 748, 663]}]
+save result image to: data/00-result-gemini\000016.jpg
+message.content= ```json
+[
+  {"box_2d": [318, 417, 508, 635], "label": "有人乞讨"}
+]
+```
+[{'box_2d': [318, 417, 508, 635], 'label': '有人乞讨'}]
+save result image to: data/00-result-gemini\000017.jpg
+message.content= I did not find any people begging in the image.
+[]
+save result image to: data/00-result-gemini\000018.jpg
+message.content= This image does not contain any people who are begging.
+[]
+save result image to: data/00-result-gemini\000019.jpg
+message.content= ```json
+[
+  {"box_2d": [447, 34, 856, 432]}
+]
+```
+[{'box_2d': [447, 34, 856, 432]}]
+save result image to: data/00-result-gemini\000020.jpg
+message.content= ```json
+[
+  {"box_2d": [206, 469, 437, 671], "label": "有人乞讨的位置"}
+]
+```
+[{'box_2d': [206, 469, 437, 671], 'label': '有人乞讨的位置'}]
+save result image to: data/00-result-gemini\000021.jpg
+message.content= I did not find any bounding box detections for a person begging.
+[]
+save result image to: data/00-result-gemini\000022.jpg
+image precision: 90.00%=9/10
+image recall: 100.00%=9/9
+bbox precision: 70.00%=7/10
+bbox recall: 77.78%=7/9

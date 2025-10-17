@@ -5,14 +5,13 @@ import cv2
 import re
 import argparse
 import pickle
-import json
 from utils import evaluate, get_labelme_gt
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="测试qwen3 vl")
+    parser = argparse.ArgumentParser(description="测试gpt5")
     parser.add_argument("--input-dir", type=str, default='data/00-test', help="输入目录")
-    parser.add_argument("--output-dir", type=str, default='data/00-result-qwen', help="输出目录")
+    parser.add_argument("--output-dir", type=str, default='data/00-result-gpt', help="输出目录")
     parser.add_argument("--key", type=str, default='', help="key")
     args = parser.parse_args()
     return args
@@ -22,34 +21,24 @@ def predict(client, prompt, image_path, output_dir):
     with open(image_path, "rb") as f:
         base64_image = base64.b64encode(f.read()).decode('utf-8')
 
-    response = client.chat.completions.create(
-        # 指定您创建的方舟推理接入点 ID，此处已帮您修改为您的推理接入点 ID
-        model="qwen3-vl-plus",
-        messages=[
+    response = client.responses.create(
+        model="gpt-4o-mini",
+        input=[
             {
                 "role": "user",
                 "content": [
+                    {"type": "input_text", "text": prompt},
                     {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/jpg;base64,{base64_image}"
-                        },
+                        "type": "input_image",
+                        "image_url": f"data:image/jpeg;base64,{base64_image}",
                     },
-                    {"type": "text", "text": prompt},
                 ],
             }
         ],
     )
 
-    bbox_content = response.choices[0].message.content
+    bbox_content = response.output_text
     print('message.content=', bbox_content)
-    
-    if '```json' in bbox_content:
-        bbox_content = bbox_content.replace('```json', '').replace('```', '')
-        bbox_content = json.loads(bbox_content)
-    else:
-        bbox_content = []
-    print(bbox_content)
 
     image = cv2.imread(image_path)
     h, w = image.shape[:2]
@@ -57,8 +46,9 @@ def predict(client, prompt, image_path, output_dir):
     pred_bboxes = []
 
     # 检查结果格式是否正确
-    for m in bbox_content:
-        coords = m['bbox_2d']
+    for m in re.findall('<bbox>.*</bbox>', bbox_content):
+        coords_str = m[len('<bbox>'):-len('</bbox>')]
+        coords = list(map(int, coords_str.split()))
         if len(coords) != 4:  # 验证坐标数量(xmin, ymin, xmax, ymax)
             raise ValueError("we need 4 numbers!")
         x_min, y_min, x_max, y_max = coords
@@ -80,12 +70,7 @@ def predict(client, prompt, image_path, output_dir):
 
 def main(args):
     prompt = '框出图中有人乞讨的位置，输出 bounding box 的坐标, 若无人乞讨则不要输出bounding box'
-    client = OpenAI(
-        # 此为默认路径，您可根据业务所在地域进行配置
-        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-        # 从环境变量中获取您的 API Key。此为默认方式，您可根据需要进行修改
-        api_key=args.key,   # os.environ.get("ARK_API_KEY"),
-    )
+    client = OpenAI(api_key=args.key)
 
     result = []
 
@@ -103,12 +88,26 @@ def main(args):
 
             pred_bboxes = predict(client, prompt, image_path, args.output_dir)
             result.append((image_path, gt_bboxes, pred_bboxes))
+            break
+        break
 
     # with open('cache.pkl', 'wb') as f:
     #     pickle.dump(result, f)
     evaluate(result)
 
 
+def tmp(args):
+    client = OpenAI(api_key=args.key)
+    print(client)
+    response = client.responses.create(
+        model="gpt-3.5-turbo",
+        input="what is today?",
+        max_tokens=1000
+    )
+
+    print(response.output_text)
+
+
 if __name__ == '__main__':
     args = parse_args()
-    main(args)
+    tmp(args)

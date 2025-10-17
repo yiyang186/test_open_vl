@@ -1,49 +1,35 @@
 import os
-from openai import OpenAI
+from google import genai
 import base64
 import cv2
 import re
 import argparse
 import pickle
 import json
+import time
 from utils import evaluate, get_labelme_gt
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="测试qwen3 vl")
+    parser = argparse.ArgumentParser(description="测试gemini 2.5 pro")
     parser.add_argument("--input-dir", type=str, default='data/00-test', help="输入目录")
-    parser.add_argument("--output-dir", type=str, default='data/00-result-qwen', help="输出目录")
+    parser.add_argument("--output-dir", type=str, default='data/00-result-gemini', help="输出目录")
     parser.add_argument("--key", type=str, default='', help="key")
     args = parser.parse_args()
     return args
 
 
 def predict(client, prompt, image_path, output_dir):
-    with open(image_path, "rb") as f:
-        base64_image = base64.b64encode(f.read()).decode('utf-8')
+    my_file = client.files.upload(file=image_path)
 
-    response = client.chat.completions.create(
-        # 指定您创建的方舟推理接入点 ID，此处已帮您修改为您的推理接入点 ID
-        model="qwen3-vl-plus",
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/jpg;base64,{base64_image}"
-                        },
-                    },
-                    {"type": "text", "text": prompt},
-                ],
-            }
-        ],
+    response = client.models.generate_content(
+        model="gemini-2.5-pro",
+        contents=[my_file, prompt],
     )
 
-    bbox_content = response.choices[0].message.content
+    bbox_content = response.text
     print('message.content=', bbox_content)
-    
+
     if '```json' in bbox_content:
         bbox_content = bbox_content.replace('```json', '').replace('```', '')
         bbox_content = json.loads(bbox_content)
@@ -58,10 +44,10 @@ def predict(client, prompt, image_path, output_dir):
 
     # 检查结果格式是否正确
     for m in bbox_content:
-        coords = m['bbox_2d']
+        coords = m['box_2d']
         if len(coords) != 4:  # 验证坐标数量(xmin, ymin, xmax, ymax)
             raise ValueError("we need 4 numbers!")
-        x_min, y_min, x_max, y_max = coords
+        y_min, x_min, y_max, x_max = coords
 
         # 获取图像尺寸并缩放坐标(模型输出范围为0-1000)
         x_min_real = int(x_min * w / 1000)
@@ -78,14 +64,10 @@ def predict(client, prompt, image_path, output_dir):
     return pred_bboxes
 
 
+
 def main(args):
     prompt = '框出图中有人乞讨的位置，输出 bounding box 的坐标, 若无人乞讨则不要输出bounding box'
-    client = OpenAI(
-        # 此为默认路径，您可根据业务所在地域进行配置
-        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-        # 从环境变量中获取您的 API Key。此为默认方式，您可根据需要进行修改
-        api_key=args.key,   # os.environ.get("ARK_API_KEY"),
-    )
+    client = genai.Client(api_key=args.key)
 
     result = []
 
@@ -103,9 +85,11 @@ def main(args):
 
             pred_bboxes = predict(client, prompt, image_path, args.output_dir)
             result.append((image_path, gt_bboxes, pred_bboxes))
+            
+            time.sleep(30)  # 免费用户每分钟限制2个请求，每天限制50个请求
 
-    # with open('cache.pkl', 'wb') as f:
-    #     pickle.dump(result, f)
+    with open('cache.pkl', 'wb') as f:
+        pickle.dump(result, f)
     evaluate(result)
 
 
