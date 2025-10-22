@@ -7,14 +7,15 @@ import argparse
 import pickle
 import json
 import time
-from utils import evaluate, get_labelme_gt
+from utils import evaluate, get_labelme_gt_txt
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="测试gemini 2.5 pro")
-    parser.add_argument("--input-dir", type=str, default='data/00-test', help="输入目录")
-    parser.add_argument("--output-dir", type=str, default='data/00-result-gemini', help="输出目录")
-    parser.add_argument("--key", type=str, default='', help="key")
+    parser.add_argument("--input-dir", type=str, default='data/01-tongfengguan', help="输入目录")
+    parser.add_argument("--output-dir", type=str, default='data/01-result-gemini', help="输出目录")
+    parser.add_argument("--keys", type=str, nargs='+', default=[], help="keys")
+    parser.add_argument("--cache", type=str, default='cache.pkl', help="keys")
     args = parser.parse_args()
     return args
 
@@ -22,13 +23,21 @@ def parse_args():
 def predict(client, prompt, image_path, output_dir):
     my_file = client.files.upload(file=image_path)
 
-    response = client.models.generate_content(
-        model="gemini-2.5-pro",
-        contents=[my_file, prompt],
-    )
+    try:
+        bbox_content = ''
+        response = client.models.generate_content(
+            model="gemini-2.5-pro",
+            contents=[my_file, prompt],
+        )
+        
+        bbox_content = response.text
+        print('message.content=', bbox_content)
+    
+    except Exception as e:
+        print(f'get error {e}')
+        return bbox_content + f'get error {e}'
 
-    bbox_content = response.text
-    print('message.content=', bbox_content)
+
 
     if '```json' in bbox_content:
         bbox_content = bbox_content.replace('```json', '').replace('```', '')
@@ -66,10 +75,16 @@ def predict(client, prompt, image_path, output_dir):
 
 
 def main(args):
-    prompt = '框出图中有人乞讨的位置，输出 bounding box 的坐标, 若无人乞讨则不要输出bounding box'
-    client = genai.Client(api_key=args.key)
-
+    prompt = '框出图中通风管结霜的位置，输出 bounding box 的坐标, 若无通风管结霜则不要输出bounding box'
+    ikey = 0
+    client = genai.Client(api_key=args.keys[ikey])
+    
     result = []
+    finished = []
+    if os.path.exists(args.cache):
+        with open(args.cache, 'rb') as f:
+            result = pickle.load(f)
+            finished = [x[0] for x in result]
 
     for root, dirs, files in os.walk(args.input_dir):
         for file in files:
@@ -77,20 +92,33 @@ def main(args):
                 continue
             
             image_path = os.path.join(root, file)
-            json_path = os.path.splitext(image_path)[0] + '.json'
+            if image_path in finished:
+                print('finished: ', image_path)
+                continue
+
+            json_path = os.path.splitext(image_path)[0] + '.txt'
 
             gt_bboxes = []
             if os.path.exists(json_path):
-                gt_bboxes = get_labelme_gt(json_path)
+                gt_bboxes = get_labelme_gt_txt(json_path)
 
             pred_bboxes = predict(client, prompt, image_path, args.output_dir)
-            result.append((image_path, gt_bboxes, pred_bboxes))
-            
-            time.sleep(30)  # 免费用户每分钟限制2个请求，每天限制50个请求
 
-    with open('cache.pkl', 'wb') as f:
+            while isinstance(pred_bboxes, str) and 'quato' in pred_bboxes and ikey < len(args.keys):
+                ikey += 1
+                client = genai.Client(api_key=args.keys[ikey])
+                pred_bboxes = predict(client, prompt, image_path, args.output_dir)
+
+            if isinstance(pred_bboxes, list):
+                result.append((image_path, gt_bboxes, pred_bboxes))
+                time.sleep(30)  # 免费用户每分钟限制2个请求，每天限制50个请求
+            elif pred_bboxes is None:
+                break
+
+    with open(args.cache, 'wb') as f:
         pickle.dump(result, f)
-    evaluate(result)
+    if result:
+        evaluate(result)
 
 
 if __name__ == '__main__':

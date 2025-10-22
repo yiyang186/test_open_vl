@@ -4,6 +4,20 @@ import cv2
 import json
 
 
+def get_labelme_gt_txt(txt_path):
+    with open(txt_path, 'r') as f:
+        labels_lines = f.readlines()
+        gt_bboxes = []
+        for la in labels_lines:
+            _, xmin, ymin, xmax, ymax = la.strip().split(' ')
+            xmin = int(float(xmin))
+            ymin = int(float(ymin))
+            xmax = int(float(xmax))
+            ymax = int(float(ymax))
+            gt_bboxes.append([xmin, ymin, xmax, ymax])
+    return gt_bboxes
+
+
 def get_labelme_gt(json_path):
     with open(json_path, 'r') as f:
         info = json.load(f)
